@@ -8,7 +8,7 @@
 
 window.QUIZ = {
   title: "万葉植物園 植物クイズ",
-  mapImage: "assets/map.png",
+  mapImage: "assets/map.png?v=2",
   intro: {
     title: "万葉植物園の植物さがし",
     lead:
@@ -19,8 +19,8 @@ window.QUIZ = {
     {
       id: "fuji",
       name: "藤の花",
-      photo: "photos/fuji.jpg",
-      pin: { x: 23, y: 52 },
+      photo: "photos/fuji.jpg?v=2",
+      pin: { x: 23, y: 45 },
       pinColor: "#7C3AED", // 紫
       choices: ["藤の花", "アジサイ", "クズ"],
       answer: "藤の花",
@@ -31,7 +31,7 @@ window.QUIZ = {
     {
       id: "sugi",
       name: "杉の木",
-      photo: "photos/sugi.jpg",
+      photo: "photos/sugi.jpg?v=2",
       pin: { x: 60, y: 18 },
       pinColor: "#059669", // 緑
       choices: ["杉の木", "ヒノキ", "マツ"],
@@ -43,8 +43,8 @@ window.QUIZ = {
     {
       id: "shaku",
       name: "シャク",
-      photo: "photos/shaku.jpg",
-      pin: { x: 50, y: 60 },
+      photo: "photos/shaku.jpg?v=2",
+      pin: { x: 25, y:60  },
       pinColor: "#F59E0B", // オレンジ
       choices: ["シャク", "ニリンソウ", "ドクダミ"],
       answer: "シャク",
