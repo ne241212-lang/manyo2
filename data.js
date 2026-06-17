@@ -18,7 +18,7 @@ window.QUIZ = {
   questions: [
     {
       id: "fuji",
-      name: "藤の花",
+      name: "?",
       photo: "photos/fuji.jpg?v=2",
       pin: { x: 23, y: 45 },
       pinColor: "#7C3AED", // 紫
@@ -30,7 +30,7 @@ window.QUIZ = {
     },
     {
       id: "sugi",
-      name: "杉の木",
+      name: "?",
       photo: "photos/sugi.jpg?v=2",
       pin: { x: 60, y: 18 },
       pinColor: "#059669", // 緑
@@ -42,7 +42,7 @@ window.QUIZ = {
     },
     {
       id: "shaku",
-      name: "シャク",
+      name: "?",
       photo: "photos/shaku.jpg?v=2",
       pin: { x: 25, y:60  },
       pinColor: "#F59E0B", // オレンジ
