@@ -15,6 +15,7 @@
 			--soft:#f1f5f9;
 			--accent:#2563eb;
 			--ok:#dc2626; /* 正解！は赤 */
+			--mint:#10b981;
 			--shadow: 0 10px 30px rgba(2,6,23,.08);
 		}
 		*{ box-sizing:border-box; }
@@ -226,6 +227,11 @@
 		}
 		.triviaTitle{ font-weight:900; color: var(--text); margin-top:6px; }
 		.trivia{ color: var(--muted); line-height:1.7; margin-top:6px; }
+		.obsUl{ margin:0; padding-left: 18px; }
+		.obsUl li{ margin: 6px 0; }
+		.checkRow{ display:flex; gap:8px; align-items:flex-start; margin:8px 0 0; }
+		.checkRow input{ margin-top:2px; }
+		.badgeOk{ display:inline-block; font-size:12px; font-weight:900; padding:6px 10px; border-radius:999px; background: rgba(16,185,129,.12); color:#065f46; border:1px solid rgba(16,185,129,.22); margin-top:10px; }
 		.closeBtn{
 			margin-top: 14px;
 			padding: 10px 14px;
@@ -240,7 +246,7 @@
 <body>
 	<header>
 		<div class="hTitle" id="siteTitle">万葉植物園 植物クイズ</div>
-		<div class="hSub">写真を見て植物を探そう</div>
+		<div class="hSub">写真を見て植物を探そう（地図はヒント）</div>
 	</header>
 
 	<!-- Intro (first view). Tap button to go to quiz. -->
@@ -267,17 +273,20 @@
 			</div>
 			<div class="cardBody">
 				<div class="quizTabs" id="quizTabs"></div>
-				<div class="small">探す植物</div>
+				<div class="small">探す植物（写真）</div>
 				<img id="targetPhoto" class="targetPhoto" alt="探す植物の写真" />
 				<div class="small" id="hintText"></div>
-				<div class="small" style="margin-top:6px;">これはどれ？</div>
+				<div class="small" style="margin-top:8px; font-weight:900;">観察ポイント（現地でチェック）</div>
+				<div class="small" id="observeList"></div>
+				<div class="small" style="margin-top:10px;">これはどれ？</div>
 				<div class="choices" id="choices"></div>
 			</div>
 		</section>
 
 		<section class="card">
 			<div class="cardHead">
-				<div class="cardTitle">地図</div>
+				<div class="cardTitle">地図（ヒント）</div>
+				<div class="pill" id="mapPill">ピンは色分け</div>
 			</div>
 			<div class="cardBody">
 				<div class="mapWrap">
@@ -285,6 +294,7 @@
 					<!-- pins injected -->
 				</div>
 				<div class="legend" id="legend"></div>
+				<div class="small">※ ピンの色は各クイズに対応。タブを切り替えると、該当ピンが強調されます。</div>
 			</div>
 		</section>
 	</main>
@@ -294,6 +304,9 @@
 			<div class="okText">正解！</div>
 			<div class="triviaTitle" id="triviaTitle">豆知識</div>
 			<div class="trivia" id="triviaText"></div>
+			<div class="triviaTitle" id="poemTitle" style="margin-top:14px;">万葉歌</div>
+			<div class="trivia" id="poemText"></div>
+			<div class="trivia" id="poemModern" style="margin-top:8px;"></div>
 			<button class="closeBtn" id="closeOverlay">閉じる</button>
 		</div>
 	</div>
@@ -306,6 +319,7 @@
 		const quizTabs = document.getElementById('quizTabs');
 		const targetPhoto = document.getElementById('targetPhoto');
 		const hintText = document.getElementById('hintText');
+		const observeList = document.getElementById('observeList');
 		const choicesEl = document.getElementById('choices');
 		const mapImg = document.getElementById('mapImg');
 		const legend = document.getElementById('legend');
@@ -330,6 +344,19 @@
 		function openCorrect(item){
 			triviaTitle.textContent = item.triviaTitle || '豆知識';
 			triviaText.textContent = item.trivia || '';
+			// 万葉歌（任意）
+			const pt = document.getElementById('poemTitle');
+			const p1 = document.getElementById('poemText');
+			const p2 = document.getElementById('poemModern');
+			if(item.poem && (item.poem.text || item.poem.modern)){
+				pt.style.display = '';
+				p1.textContent = item.poem.text || '';
+				p2.textContent = item.poem.modern ? `現代語訳：${item.poem.modern}` : '';
+			} else {
+				pt.style.display = 'none';
+				p1.textContent = '';
+				p2.textContent = '';
+			}
 			overlay.style.display = 'flex';
 		}
 
@@ -348,6 +375,7 @@
 				const b = document.createElement('div');
 				b.className = 'tab';
 				b.dataset.active = (i === activeIndex).toString();
+				// 植物名が分からないように Q1/Q2… 表示
 				b.innerHTML = `<span class="tabDot" style="background:${q.pinColor};"></span>Q${i+1}`;
 				b.onclick = () => setActive(i);
 				quizTabs.appendChild(b);
@@ -361,10 +389,21 @@
 				// 画像が無い場合の見た目（真っ白にならない）
 				targetPhoto.removeAttribute('src');
 				targetPhoto.style.background = 'linear-gradient(135deg, #e2e8f0, #f8fafc)';
-				targetPhoto.alt = 'photosフォルダに画像を置いてください';
+				targetPhoto.alt = 'photosフォルダに画像を���いてください';
 			};
 
-			hintText.textContent = `地図のヒント：${q.name} のピンを見て探してみよう。`;
+			hintText.textContent = `地図のヒント：同じ色のピンを見て探してみよう。`;
+
+			// 観察ポイント
+			const obs = Array.isArray(q.observe) ? q.observe : [];
+			if(obs.length){
+				observeList.innerHTML = `<ul class="obsUl">${obs.map(t => `<li>${t}</li>`).join('')}</ul>` +
+				`<div class="checkRow"><input type="checkbox" id="chk1"><label for="chk1">花／葉／幹を実物で確認した</label></div>` +
+				`<div class="checkRow"><input type="checkbox" id="chk2"><label for="chk2">近づいて観察した（形・向き・香りなど）</label></div>` +
+				`<div class="checkRow"><input type="checkbox" id="chk3"><label for="chk3">写真と見比べて同じだと思った</label></div>`;
+			} else {
+				observeList.textContent = '';
+			}
 
 			choicesEl.innerHTML = '';
 			q.choices.forEach((c) => {
@@ -389,7 +428,7 @@
 				// 地図が無い場合の見た目
 				mapImg.removeAttribute('src');
 				mapImg.style.background = 'linear-gradient(135deg, #e2e8f0, #f8fafc)';
-				mapImg.alt = 'assets/map.png?v=2 を置いてください';
+				mapImg.alt = 'assets/map.png を置いてください';
 			};
 
 			// pins
@@ -411,10 +450,10 @@
 
 			// legend
 			legend.innerHTML = '';
-			quiz.questions.forEach((q) => {
+			quiz.questions.forEach((q, i) => {
 				const d = document.createElement('div');
 				d.className = 'legendItem';
-				d.innerHTML = `<span class="legendSwatch" style="background:${q.pinColor}"></span>${q.name}`;
+				d.innerHTML = `<span class="legendSwatch" style="background:${q.pinColor}"></span>Q${i+1}`;
 				legend.appendChild(d);
 			});
 		}

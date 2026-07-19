@@ -8,7 +8,7 @@
 
 window.QUIZ = {
   title: "万葉植物園 植物クイズ",
-  mapImage: "assets/map.png?v=2",
+  mapImage: "assets/map.png",
   intro: {
     title: "万葉植物園の植物さがし",
     lead:
@@ -18,36 +18,66 @@ window.QUIZ = {
   questions: [
     {
       id: "fuji",
-      name: "?",
-      photo: "photos/fuji.jpg?v=2",
-      pin: { x: 23, y: 45 },
+      name: "藤の花",
+      photo: "photos/fuji.jpg",
+      pin: { x: 23, y: 52 },
       pinColor: "#7C3AED", // 紫
       choices: ["藤の花", "アジサイ", "クズ"],
       answer: "藤の花",
+      observe: [
+        "花は紫〜薄紫？",
+        "房のようにぶら下がって咲いている？",
+        "近づくと香りがする？",
+      ],
+      poem: {
+        title: "万葉歌（例）",
+        text: "（ここに万葉集の歌を入れる）",
+        modern: "（ここに現代語訳を入れる）",
+      },
       triviaTitle: "豆知識",
       trivia:
         "藤はマメ科のつる植物。花が房のように垂れ下がるのが特徴で、香りも楽しめます。",
     },
     {
       id: "sugi",
-      name: "?",
-      photo: "photos/sugi.jpg?v=2",
+      name: "杉の木",
+      photo: "photos/sugi.jpg",
       pin: { x: 60, y: 18 },
       pinColor: "#059669", // 緑
       choices: ["杉の木", "ヒノキ", "マツ"],
       answer: "杉の木",
+      observe: [
+        "幹はまっすぐ伸びている？",
+        "葉は針のように細い？",
+        "木の肌（樹皮）はどんな模様？",
+      ],
+      poem: {
+        title: "万葉歌（例）",
+        text: "（ここに万葉集の歌を入れる）",
+        modern: "（ここに現代語訳を入れる）",
+      },
       triviaTitle: "豆知識",
       trivia:
         "スギは日本でよく見られる常緑針葉樹。まっすぐ伸びる幹と、細い針のような葉が目印です。",
     },
     {
       id: "shaku",
-      name: "?",
-      photo: "photos/shaku.jpg?v=2",
-      pin: { x: 25, y:60  },
+      name: "シャク",
+      photo: "photos/shaku.jpg",
+      pin: { x: 50, y: 60 },
       pinColor: "#F59E0B", // オレンジ
       choices: ["シャク", "ニリンソウ", "ドクダミ"],
       answer: "シャク",
+      observe: [
+        "白い小花が集まって、傘みたいな形？",
+        "葉の形はギザギザ？",
+        "近くに同じ仲間の草がある？",
+      ],
+      poem: {
+        title: "万葉歌（例）",
+        text: "（ここに万葉集の歌を入れる）",
+        modern: "（ここに現代語訳を入れる）",
+      },
       triviaTitle: "豆知識",
       trivia:
         "シャクはセリ科の植物で、白い小花が集まって傘のように咲きます。葉の形も観察ポイント。",
