@@ -311,7 +311,7 @@
 		</div>
 	</div>
 
-	<script src="data.js"></script>
+	<script src="data18.js"></script>
 	<script>
 		const quiz = window.QUIZ;
 		const siteTitle = document.getElementById('siteTitle');
@@ -334,24 +334,36 @@
 		const quizView = document.getElementById('quizView');
 		const hero = document.getElementById('hero');
 
-		let activeIndex = 0;
+		// 6種類の植物（タブ）× 3問（ステージ）
+		let activePlantIndex = 0;
+		let activeStageIndex = 0;
 
-		function setActive(i){
-			activeIndex = i;
+		function setActivePlant(i){
+			activePlantIndex = i;
+			activeStageIndex = 0;
 			render();
 		}
 
-		function openCorrect(item){
-			triviaTitle.textContent = item.triviaTitle || '豆知識';
-			triviaText.textContent = item.trivia || '';
+		function getActivePlant(){
+			return (quiz.plants || [])[activePlantIndex];
+		}
+
+		function getActiveStage(){
+			const p = getActivePlant();
+			return p && p.stages ? p.stages[activeStageIndex] : null;
+		}
+
+		function openCorrect(stage){
+			triviaTitle.textContent = stage.correctTitle || '正解！';
+			triviaText.textContent = stage.correctText || '';
 			// 万葉歌（任意）
 			const pt = document.getElementById('poemTitle');
 			const p1 = document.getElementById('poemText');
 			const p2 = document.getElementById('poemModern');
-			if(item.poem && (item.poem.text || item.poem.modern)){
+			if(stage.poem && (stage.poem.text || stage.poem.modern)){
 				pt.style.display = '';
-				p1.textContent = item.poem.text || '';
-				p2.textContent = item.poem.modern ? `現代語訳：${item.poem.modern}` : '';
+				p1.textContent = stage.poem.text || '';
+				p2.textContent = stage.poem.modern ? `現代語訳：${stage.poem.modern}` : '';
 			} else {
 				pt.style.display = 'none';
 				p1.textContent = '';
@@ -371,20 +383,22 @@
 
 		function renderTabs(){
 			quizTabs.innerHTML = '';
-			quiz.questions.forEach((q, i) => {
+			(quiz.plants || []).forEach((p, i) => {
 				const b = document.createElement('div');
 				b.className = 'tab';
-				b.dataset.active = (i === activeIndex).toString();
+				b.dataset.active = (i === activePlantIndex).toString();
 				// 植物名が分からないように Q1/Q2… 表示
-				b.innerHTML = `<span class="tabDot" style="background:${q.pinColor};"></span>Q${i+1}`;
-				b.onclick = () => setActive(i);
+				b.innerHTML = `<span class="tabDot" style="background:${p.pinColor};"></span>Q${i+1}`;
+				b.onclick = () => setActivePlant(i);
 				quizTabs.appendChild(b);
 			});
 		}
 
 		function renderQuestion(){
-			const q = quiz.questions[activeIndex];
-			targetPhoto.src = q.photo;
+			const plant = getActivePlant();
+			const stage = getActiveStage();
+			if(!plant || !stage) return;
+			targetPhoto.src = plant.photo;
 			targetPhoto.onerror = () => {
 				// 画像が無い場合の見た目（真っ白にならない）
 				targetPhoto.removeAttribute('src');
@@ -395,7 +409,7 @@
 			hintText.textContent = `地図のヒント：同じ色のピンを見て探してみよう。`;
 
 			// 観察ポイント
-			const obs = Array.isArray(q.observe) ? q.observe : [];
+			const obs = Array.isArray(stage.observe) ? stage.observe : [];
 			if(obs.length){
 				observeList.innerHTML = `<ul class="obsUl">${obs.map(t => `<li>${t}</li>`).join('')}</ul>` +
 				`<div class="checkRow"><input type="checkbox" id="chk1"><label for="chk1">花／葉／幹を実物で確認した</label></div>` +
@@ -406,13 +420,29 @@
 			}
 
 			choicesEl.innerHTML = '';
-			q.choices.forEach((c) => {
+			(stage.choices || []).forEach((c) => {
 				const btn = document.createElement('button');
 				btn.className = 'choiceBtn';
 				btn.textContent = c;
 				btn.onclick = () => {
-					if(c === q.answer){
-						openCorrect(q);
+					if(c === stage.answer){
+						openCorrect(stage);
+						// 次の問題へ（正解ポップアップを閉じたら進む）
+						const prevHandler = closeOverlay.onclick;
+						closeOverlay.onclick = () => {
+							closeCorrect();
+							if(activeStageIndex < (plant.stages.length - 1)){
+								activeStageIndex += 1;
+							} else {
+								// 次の植物へ
+								if(activePlantIndex < ((quiz.plants || []).length - 1)){
+									activePlantIndex += 1;
+									activeStageIndex = 0;
+								}
+							}
+							render();
+							closeOverlay.onclick = prevHandler;
+						};
 					} else {
 						// 不正解は軽く
 						alert('ちがうかも…もう一回！');
@@ -435,22 +465,22 @@
 			const mapWrap = mapImg.parentElement;
 			[...mapWrap.querySelectorAll('.pin')].forEach(p => p.remove());
 
-			quiz.questions.forEach((q, i) => {
+			(quiz.plants || []).forEach((q, i) => {
 				const p = document.createElement('div');
 				p.className = 'pin';
 				p.style.left = q.pin.x + '%';
 				p.style.top = q.pin.y + '%';
 				p.style.background = q.pinColor;
 				p.style.color = q.pinColor;
-				p.dataset.active = (i === activeIndex).toString();
+				p.dataset.active = (i === activePlantIndex).toString();
 				p.title = q.name;
-				p.onclick = () => setActive(i);
+				p.onclick = () => setActivePlant(i);
 				mapWrap.appendChild(p);
 			});
 
 			// legend
 			legend.innerHTML = '';
-			quiz.questions.forEach((q, i) => {
+			(quiz.plants || []).forEach((q, i) => {
 				const d = document.createElement('div');
 				d.className = 'legendItem';
 				d.innerHTML = `<span class="legendSwatch" style="background:${q.pinColor}"></span>Q${i+1}`;
@@ -460,7 +490,7 @@
 
 		function render(){
 			siteTitle.textContent = quiz.title || '万葉植物園 植物クイズ';
-			qPill.textContent = `${quiz.questions.length}問`;
+			qPill.textContent = `${(quiz.plants || []).length}種類（各3問）`;
 			if(quiz.intro){
 				introTitle.textContent = quiz.intro.title || '万葉植物園の植物さがし';
 				introLead.innerHTML = (quiz.intro.lead || '').replaceAll('\n', '<br>');
