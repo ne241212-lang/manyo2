@@ -25,7 +25,12 @@
 			background: linear-gradient(180deg, #f8fafc 0%, #eef2ff 100%);
 			color:var(--text);
 		}
-		.hero{ max-width: 980px; margin: 10px auto 0; padding: 0 14px; }
+		/* Intro hero */
+		.hero{
+			max-width: 980px;
+			margin: 10px auto 0;
+			padding: 0 14px;
+		}
 		.heroInner{
 			background: linear-gradient(135deg, #ffffff 0%, #f8fafc 60%, #eef2ff 100%);
 			border: 1px solid var(--line);
@@ -40,21 +45,27 @@
 		.heroNote{ margin-top: 14px; font-weight: 900; color: #2563eb; }
 		.heroActions{ margin-top: 14px; display:flex; justify-content:flex-start; }
 		.startBtn{
-			appearance:none; border:none;
+			appearance:none;
+			border:none;
 			background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
-			color:#ffffff; font-weight: 900;
-			padding: 12px 14px; border-radius: 14px;
+			color:#ffffff;
+			font-weight: 900;
+			padding: 12px 14px;
+			border-radius: 14px;
 			box-shadow: 0 16px 30px rgba(22,163,74,.18);
 			cursor:pointer;
 		}
 		.startBtn:active{ transform: translateY(1px); }
 		.heroFade{
-			max-width: 980px; margin: 0 auto;
+			max-width: 980px;
+			margin: 0 auto;
 			height: 10px;
 			background: linear-gradient(180deg, rgba(248,250,252,0) 0%, rgba(248,250,252,1) 100%);
 		}
 		header{
-			position:sticky; top:0; z-index:10;
+			position:sticky;
+			top:0;
+			z-index:10;
 			background: rgba(248,250,252,.85);
 			backdrop-filter: blur(10px);
 			border-bottom:1px solid var(--line);
@@ -78,16 +89,23 @@
 		.cardHead{
 			padding:10px 12px;
 			border-bottom:1px solid var(--line);
-			display:flex; gap:8px; align-items:center; justify-content:space-between;
+			display:flex;
+			gap:8px;
+			align-items:center;
+			justify-content:space-between;
 		}
 		.cardTitle{ font-weight:900; font-size:14px; color:var(--muted); }
 		.pill{
-			font-size:12px; padding:6px 10px;
-			border:1px solid var(--line); border-radius:999px;
-			background: #fff; color: var(--muted);
+			font-size:12px;
+			padding:6px 10px;
+			border:1px solid var(--line);
+			border-radius:999px;
+			background: #fff;
+			color: var(--muted);
 		}
 		.cardBody{ padding:12px; display:grid; gap:10px; }
 
+		/* quiz selector */
 		.quizTabs{ display:flex; gap:8px; flex-wrap:wrap; }
 		.tab{
 			border:1px solid var(--line);
@@ -105,7 +123,8 @@
 		}
 		.tabDot{
 			display:inline-block;
-			width:10px; height:10px;
+			width:10px;
+			height:10px;
 			border-radius:999px;
 			margin-right:8px;
 			border:2px solid rgba(255,255,255,.9);
@@ -113,6 +132,7 @@
 			vertical-align:-1px;
 		}
 
+		/* target photo */
 		.targetPhoto{
 			width:100%;
 			aspect-ratio: 16 / 10;
@@ -123,6 +143,7 @@
 		}
 		.small{ font-size:12px; color:var(--muted); line-height:1.6; }
 
+		/* choices */
 		.choices{ display:grid; gap:8px; }
 		.choiceBtn{
 			width:100%;
@@ -138,6 +159,7 @@
 		.choiceBtn:hover{ background: #fbfdff; }
 		.choiceBtn:active{ transform: translateY(1px); }
 
+		/* map */
 		.mapWrap{
 			position:relative;
 			width:100%;
@@ -147,8 +169,9 @@
 			border:1px solid var(--line);
 			background: var(--soft);
 		}
-		.mapWrap img{ width:100%; height:100%; object-fit:contain; display:block; }
-
+		.mapWrap img{
+			width:100%; height:100%; object-fit:contain; display:block;
+		}
 		.pin{
 			position:absolute;
 			width:16px; height:16px;
@@ -175,6 +198,7 @@
 		.legendItem{ display:flex; gap:8px; align-items:center; font-size:12px; color:var(--muted); }
 		.legendSwatch{ width:10px; height:10px; border-radius:999px; border:2px solid rgba(255,255,255,.95); box-shadow: 0 6px 18px rgba(2,6,23,.12); }
 
+		/* correct overlay */
 		.overlay{
 			position:fixed;
 			inset:0;
@@ -203,6 +227,11 @@
 		}
 		.triviaTitle{ font-weight:900; color: var(--text); margin-top:6px; }
 		.trivia{ color: var(--muted); line-height:1.7; margin-top:6px; }
+		.obsUl{ margin:0; padding-left: 18px; }
+		.obsUl li{ margin: 6px 0; }
+		.checkRow{ display:flex; gap:8px; align-items:flex-start; margin:8px 0 0; }
+		.checkRow input{ margin-top:2px; }
+		.badgeOk{ display:inline-block; font-size:12px; font-weight:900; padding:6px 10px; border-radius:999px; background: rgba(16,185,129,.12); color:#065f46; border:1px solid rgba(16,185,129,.22); margin-top:10px; }
 		.closeBtn{
 			margin-top: 14px;
 			padding: 10px 14px;
@@ -220,10 +249,12 @@
 		<div class="hSub">写真を見て植物を探そう（地図はヒント）</div>
 	</header>
 
+	<!-- Intro (first view). Tap button to go to quiz. -->
 	<section class="hero" id="hero">
 		<div class="heroInner">
 			<div class="heroTitle" id="introTitle">万葉植物園の植物さがし</div>
 			<div class="heroLead" id="introLead">
+				昔の万葉植物園には、多種多様な植物がありました。今ある景色の中にも、その名残が見つかるかもしれません。<br>
 				写真を手がかりに、園内で同じ植物を探してみましょう。地図は「場所のヒント」です。
 			</div>
 			<div class="heroNote" id="introNote">ボタンを押すとクイズへ進みます</div>
@@ -261,7 +292,7 @@
 					<!-- pins injected -->
 				</div>
 				<div class="legend" id="legend"></div>
-				<div class="small">※ 同じ色のピン＝同じクイズ（同じ植物）のヒントです。</div>
+				<div class="small">※ ピンの色は各クイズに対応。タブを切り替えると、該当ピンが強調されます。</div>
 			</div>
 		</section>
 	</main>
@@ -271,20 +302,16 @@
 			<div class="okText">正解！</div>
 			<div class="triviaTitle" id="triviaTitle">豆知識</div>
 			<div class="trivia" id="triviaText"></div>
-
-			<!-- 正解後だけここを表示 -->
-			<div class="triviaTitle" id="poemTitle" style="margin-top:14px;">歌</div>
+			<div class="triviaTitle" id="poemTitle" style="margin-top:14px;">万葉歌</div>
 			<div class="trivia" id="poemText"></div>
 			<div class="trivia" id="poemModern" style="margin-top:8px;"></div>
-
-			<button class="closeBtn" id="closeOverlay">次へ</button>
+			<button class="closeBtn" id="closeOverlay">閉じる</button>
 		</div>
 	</div>
 
-	<script src="data18.js"></script>
+	<script src="data5.js"></script>
 	<script>
 		const quiz = window.QUIZ;
-
 		const siteTitle = document.getElementById('siteTitle');
 		const qPill = document.getElementById('qPill');
 		const quizTabs = document.getElementById('quizTabs');
@@ -294,22 +321,18 @@
 		const choicesEl = document.getElementById('choices');
 		const mapImg = document.getElementById('mapImg');
 		const legend = document.getElementById('legend');
-
 		const overlay = document.getElementById('overlay');
 		const triviaTitle = document.getElementById('triviaTitle');
 		const triviaText = document.getElementById('triviaText');
 		const closeOverlay = document.getElementById('closeOverlay');
-
-		const poemTitle = document.getElementById('poemTitle');
-		const poemText = document.getElementById('poemText');
-		const poemModern = document.getElementById('poemModern');
-
 		const introTitle = document.getElementById('introTitle');
 		const introLead = document.getElementById('introLead');
 		const introNote = document.getElementById('introNote');
 		const startBtn = document.getElementById('startBtn');
 		const quizView = document.getElementById('quizView');
+		const hero = document.getElementById('hero');
 
+		// 6種類の植物（タブ）× 3問（ステージ）
 		let activePlantIndex = 0;
 		let activeStageIndex = 0;
 
@@ -331,25 +354,19 @@
 		function openCorrect(stage){
 			triviaTitle.textContent = stage.correctTitle || '正解！';
 			triviaText.textContent = stage.correctText || '';
-
-			// 歌（正解後だけ表示）
-			if(stage.poem && (stage.poem.text || stage.poem.modern || stage.poem.title)){
-				poemTitle.style.display = '';
-				poemText.style.display = '';
-				poemModern.style.display = '';
-
-				poemTitle.textContent = stage.poem.title || '歌';
-				poemText.textContent = stage.poem.text || '';
-				poemModern.textContent = stage.poem.modern ? `雰囲気訳：${stage.poem.modern}` : '';
+			// 万葉歌（任意）
+			const pt = document.getElementById('poemTitle');
+			const p1 = document.getElementById('poemText');
+			const p2 = document.getElementById('poemModern');
+			if(stage.poem && (stage.poem.text || stage.poem.modern)){
+				pt.style.display = '';
+				p1.textContent = stage.poem.text || '';
+				p2.textContent = stage.poem.modern ? `日本語訳：${stage.poem.modern}` : '';
 			} else {
-				poemTitle.style.display = 'none';
-				poemText.style.display = 'none';
-				poemModern.style.display = 'none';
-
-				poemText.textContent = '';
-				poemModern.textContent = '';
+				pt.style.display = 'none';
+				p1.textContent = '';
+				p2.textContent = '';
 			}
-
 			overlay.style.display = 'flex';
 		}
 
@@ -368,7 +385,7 @@
 				const b = document.createElement('div');
 				b.className = 'tab';
 				b.dataset.active = (i === activePlantIndex).toString();
-				// 植物名は隠す
+				// 植物名が分からないように Q1/Q2… 表示
 				b.innerHTML = `<span class="tabDot" style="background:${p.pinColor};"></span>Q${i+1}`;
 				b.onclick = () => setActivePlant(i);
 				quizTabs.appendChild(b);
@@ -379,15 +396,23 @@
 			const plant = getActivePlant();
 			const stage = getActiveStage();
 			if(!plant || !stage) return;
-
 			targetPhoto.src = plant.photo;
+			targetPhoto.onerror = () => {
+				// 画像が無い場合の見た目（真っ白にならない）
+				targetPhoto.removeAttribute('src');
+				targetPhoto.style.background = 'linear-gradient(135deg, #e2e8f0, #f8fafc)';
+				targetPhoto.alt = 'photosフォルダに画像を���いてください';
+			};
 
-			hintText.textContent = `地図のヒント：同じ色のピンを見て探してみよう。`;
+			const hintParts = [];
+			hintParts.push('地図のヒント：同じ色のピンを見て探してみよう。');
+			if(stage.nameHint) hintParts.push(stage.nameHint);
+			hintText.textContent = hintParts.join('　');
 
-			// ★Q2/Q3で問題文が変わる
+			// 問題文（ステージごとに変える）
 			questionText.textContent = stage.question || 'これはどれ？';
 
-			// ★正解が毎回一番上にならないようにシャッフル
+			// 選択肢の並びを毎回ランダム化（正解が毎回一番上にならないように）
 			const shuffledChoices = [...(stage.choices || [])].sort(() => Math.random() - 0.5);
 
 			choicesEl.innerHTML = '';
@@ -398,15 +423,14 @@
 				btn.onclick = () => {
 					if(c === stage.answer){
 						openCorrect(stage);
-
-						// 正解後：閉じたら次へ進む
+						// 次の問題へ（正解ポップアップを閉じたら進む）
 						const prevHandler = closeOverlay.onclick;
 						closeOverlay.onclick = () => {
 							closeCorrect();
-
 							if(activeStageIndex < (plant.stages.length - 1)){
 								activeStageIndex += 1;
 							} else {
+								// 次の植物へ
 								if(activePlantIndex < ((quiz.plants || []).length - 1)){
 									activePlantIndex += 1;
 									activeStageIndex = 0;
@@ -416,6 +440,7 @@
 							closeOverlay.onclick = prevHandler;
 						};
 					} else {
+						// 不正解は軽く
 						alert('ちがうかも…もう一回！');
 					}
 				};
@@ -425,7 +450,14 @@
 
 		function renderMap(){
 			mapImg.src = quiz.mapImage;
+			mapImg.onerror = () => {
+				// 地図が無い場合の見た目
+				mapImg.removeAttribute('src');
+				mapImg.style.background = 'linear-gradient(135deg, #e2e8f0, #f8fafc)';
+				mapImg.alt = 'assets/map.png を置いてください';
+			};
 
+			// pins
 			const mapWrap = mapImg.parentElement;
 			[...mapWrap.querySelectorAll('.pin')].forEach(p => p.remove());
 
@@ -437,19 +469,16 @@
 				p.style.background = q.pinColor;
 				p.style.color = q.pinColor;
 				p.dataset.active = (i === activePlantIndex).toString();
-
-				// ★植物名が出ないようにする（ホバーで出るtitleを空に）
-				p.title = '';
-
+				p.title = q.name;
 				p.onclick = () => setActivePlant(i);
 				mapWrap.appendChild(p);
 			});
 
+			// legend
 			legend.innerHTML = '';
 			(quiz.plants || []).forEach((q, i) => {
 				const d = document.createElement('div');
 				d.className = 'legendItem';
-				// ★植物名は出さない
 				d.innerHTML = `<span class="legendSwatch" style="background:${q.pinColor}"></span>Q${i+1}`;
 				legend.appendChild(d);
 			});
@@ -458,22 +487,23 @@
 		function render(){
 			siteTitle.textContent = quiz.title || '万葉植物園 植物クイズ';
 			qPill.textContent = `${(quiz.plants || []).length}種類（各3問）`;
-
 			if(quiz.intro){
 				introTitle.textContent = quiz.intro.title || '万葉植物園の植物さがし';
 				introLead.innerHTML = (quiz.intro.lead || '').replaceAll('\n', '<br>');
-				introNote.textContent = quiz.intro.note || 'ボタンを押すとクイズへ進みます';
+				introNote.textContent = quiz.intro.note || '↓ 少しスクロールするとクイズが始まります';
 			}
-
 			renderTabs();
 			renderQuestion();
 			renderMap();
 		}
 
 		function startQuiz(){
+			// show quiz section
 			quizView.dataset.visible = 'true';
+			// smooth scroll to quiz
 			quizView.scrollIntoView({ behavior: 'smooth', block: 'start' });
-			render();
+			// optional: keep hero visible but de-emphasized
+			hero.dataset.started = 'true';
 		}
 
 		startBtn.addEventListener('click', startQuiz);
